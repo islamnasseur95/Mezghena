@@ -1,8 +1,8 @@
 module.exports = {
     HOST: "localhost",
     USER: "root",
-    PASSWORD: "mezghenaPass",
-    DB: "testdb",
+    PASSWORD: "root",
+    DB: "mezghena_db",
     dialect: "mysql",
     pool : {
         max: 5,

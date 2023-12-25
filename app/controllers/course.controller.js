@@ -1,9 +1,9 @@
 const db = require("../models");
-const Course = db.courses;
+const Courses = db.courses;
 const Op = db.Sequelize.Op;
 
 //Create and save Course 
-exports.Create = ( req, res ) => {
+exports.create = ( req, res ) => {
     //Validate request
     if(!req.body.title) {
         res.status(400).send({
@@ -20,7 +20,7 @@ exports.Create = ( req, res ) => {
     }
 
     //Save course in the database
-    Course.create(course)
+    Courses.create(course)
     .then(data => {
         //Return response with status Ok and the newly created course
         res.send(data);
@@ -38,7 +38,7 @@ exports.findAll = ( req, res ) => {
     const title = req.query.title;
     let condition = title ? { title: { [Op.like]: `%${title}%`} } : null;
 
-    Course.findAll({ where: condition })
+    Courses.findAll({ where: condition })
     .then(data => {
         res.send(data)
     })
@@ -54,7 +54,7 @@ exports.findAll = ( req, res ) => {
 exports.findOne = ( req, res ) => {
     const id = req.params.id;
 
-    Course.findByPk(id)
+    Courses.findByPk(id)
     .then(data => {
         if (data) {
             res.send(data);
@@ -76,7 +76,7 @@ exports.findOne = ( req, res ) => {
 exports.update = ( req, res ) => {
     const id = req.params.id;
 
-    Course.update(req.body, {
+    Courses.update(req.body, {
         where: { id: id}
     })
     .then(num => {
@@ -101,7 +101,7 @@ exports.update = ( req, res ) => {
 exports.delete = (req, res) => {
     const id = req.params.id;
 
-    Course.destroy({
+    Courses.destroy({
         where: { id: id }
     })
     .then(num => {
@@ -124,7 +124,7 @@ exports.delete = (req, res) => {
 
 //Delete all Courses from the database 
 exports.deleteAll = ( req, res ) => {
-    Course.destroy({
+    Courses.destroy({
         where: {},
         truncate: false
     })
@@ -137,4 +137,19 @@ exports.deleteAll = ( req, res ) => {
                 err.message || "Some error occured while removing all courses !"
         });
     });
+}
+
+exports.findAllPublished = ( req, res ) => {
+    Courses.findAll({
+        where: { published: true }
+    })
+    .then(data => {
+        res.send(data);
+    })
+    .catch(err => {
+        res.status(500).send({
+            message: 
+                err.message || "Some error occured while retrieving published courses !"
+        })
+    })
 }

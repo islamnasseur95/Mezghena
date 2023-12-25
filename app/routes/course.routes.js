@@ -1,3 +1,5 @@
+
+
 module.exports = app => {
     const courses = require("../controllers/course.controller");
 
@@ -16,10 +18,10 @@ module.exports = app => {
     router.get("/:id", courses.findOne);
 
     //Update a course with id
-    router.put(":id", courses.update);
+    router.put("/:id", courses.update);
 
     //Delete a course by id
-    router.delete(":id", courses.delete);
+    router.delete("/:id", courses.delete);
 
     //Delete all courses 
     router.delete("/", courses.deleteAll);
